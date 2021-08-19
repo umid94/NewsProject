@@ -10,7 +10,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import by.itacademy.newsportal.bean.News;
-import by.itacademy.newsportal.bean.User;
 import by.itacademy.newsportal.dao.DAOException;
 import by.itacademy.newsportal.dao.NewsDAO;
 import by.itacademy.newsportal.dao.connectionpool.ConnectionPool;
@@ -108,7 +107,7 @@ public class NewsDAOImpl implements NewsDAO {
 			while (rs.next()) {
 				newses.add(new News(rs.getInt("id"),rs.getString("title"),rs.getString("brief"), rs.getString("content"), rs.getDate("date"), rs.getInt("id_user")));
 			}
-			
+			System.out.print("v baze");
 		} catch (SQLException e) {
 			throw new DAOException("Oshibka pri chtenie News", e);
 		} catch (ConnectionPoolException e) {

@@ -8,7 +8,6 @@ import by.itacademy.newsportal.dao.DAOProvider;
 import by.itacademy.newsportal.dao.NewsDAO;
 import by.itacademy.newsportal.service.NewsService;
 import by.itacademy.newsportal.service.ServiceException;
-import by.itacademy.newsportal.service.ServiceProvider;
 
 public class NewServiceImpl implements NewsService {
     

@@ -1,17 +1,30 @@
 package by.itacademy.newsportal.bean;
 
 import java.io.Serializable;
-import java.util.Objects;
 
 public class User implements Serializable{
 	private static final long serialVersionUID = 1L;
+	private int id;
 	private String role;
 	private String login;
 
-	public User(String login, String role) {
+	public User(int id, String login, String role) {
 		super();
+		this.id = id;
 		this.role = role;
 		this.login = login;
+	}
+    
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setRole(String role) {
+		this.role = role;
 	}
 
 	public String getRole() {

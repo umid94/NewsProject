@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService {
 	 		userDAO.saveUser(info);
 	      }catch(DAOException e) {
 	    	  
-	    	  throw new ServiceException(e.getMessage());
+	    	  throw new ServiceException("Error registration new User invalid data", e);
 	      }
 	
     }
@@ -71,7 +71,16 @@ public class UserServiceImpl implements UserService {
 	}
 	@Override
 	public void validateDuplicate(String login, String email) throws ServiceException {
+		
+		if (!login.matches(PATTERN_LOGIN)) {
+			throw new ServiceException("Invalid login. Try again");
+		}
+		if (!email.matches(PATTERN_EMAIL)) {
+			throw new ServiceException("Invalid email. Try again");
+		}
+		
 		try {
+			
 			userDAO.validateDuplicate(login, email);
 		} catch (DAOException e) {
 			throw new ServiceException(e.getMessage(), e);

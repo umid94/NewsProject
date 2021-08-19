@@ -1,12 +1,10 @@
 package by.itacademy.newsportal.dao.impl;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-import com.mysql.jdbc.Statement;
 
 import by.itacademy.newsportal.bean.RegistrationInfo;
 import by.itacademy.newsportal.bean.User;
@@ -42,7 +40,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error occurred while registering a user", e);
 		} catch (ConnectionPoolException e) {
-			throw new DAOException();
+			throw new DAOException("Error connect to ConnectionPool", e);
 		} finally {
 			try {
 				if (ps != null) {
@@ -73,15 +71,16 @@ public class UserDAOImpl implements UserDAO {
 
 		    rs = ps.executeQuery();
 			while (rs.next()) {
+				int id = rs.getInt("idusers");
 				String log = rs.getString("login");
 				String role = rs.getString("role");
-				user = new User(log, role);
+				user = new User(id, log, role);
 			}
 			
 		} catch (SQLException e) {
 			throw new DAOException("Error occurred while registering a user", e);
 		} catch (ConnectionPoolException e) {
-			throw new DAOException("Dao da bir nimalar bo'ldi", e);
+			throw new DAOException("Error connect to ConnectionPool", e);
 		}finally {
 			try {
 				if(rs != null) {
@@ -128,7 +127,7 @@ public class UserDAOImpl implements UserDAO {
 		} catch (SQLException e) {
 			throw new DAOException("Error occurred while registering a user", e);
 		} catch (ConnectionPoolException e) {
-			throw new DAOException("Dao da bir nimalar bo'ldi", e);
+			throw new DAOException("Error connect to ConnectionPool", e);
 		}finally {
 			try {
 				if(rs != null) {

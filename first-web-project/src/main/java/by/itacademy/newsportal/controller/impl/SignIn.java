@@ -26,29 +26,30 @@ public class SignIn implements Command {
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
+
+		List<News> newsess = new ArrayList<News>();
+
 		try {
-			
+
 			String login = (String) request.getParameter("login");
 			String password = (String) request.getParameter("password");
-		    User user = USERSERVICE.authorizationUser(login, password);
-		   
-		   HttpSession session = request.getSession(true);
-		   session.setAttribute("user", user);
-		   
-		   List<News> newsess = new ArrayList<News>();
-				newsess = NEWSSERVICE.getLastNews();
-				request.setAttribute("newsess", newsess);
-						   
-		if("admin".equals(user.getRole())){	
-			response.sendRedirect(SENDRED_TRY_ADMIN);
+			User user = USERSERVICE.authorizationUser(login, password);
+
+			newsess = NEWSSERVICE.getLastNews();
+			request.setAttribute("newse", newsess);
 			
-		}else {
-			response.sendRedirect(SENDRED_TRY_USER);
-		}
+			HttpSession session = request.getSession(true);
+			session.setAttribute("user", user);
+			if ("admin".equals(user.getRole())) {
+				response.sendRedirect(SENDRED_TRY_ADMIN);
+
+			} else {
+				response.sendRedirect(SENDRED_TRY_USER);
+			}
 		} catch (ServiceException e) {
-			response.sendRedirect(SENDRED_CATCH);	
-		}	
+			response.sendRedirect(SENDRED_CATCH);
+		}
+		
 	}
 
 }

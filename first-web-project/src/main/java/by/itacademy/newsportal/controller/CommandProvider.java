@@ -5,6 +5,7 @@ import java.util.Map;
 
 import by.itacademy.newsportal.controller.impl.AddNews;
 import by.itacademy.newsportal.controller.impl.ChangeLocale;
+import by.itacademy.newsportal.controller.impl.GoToAddNewsPage;
 import by.itacademy.newsportal.controller.impl.GoToAdminPage;
 import by.itacademy.newsportal.controller.impl.GoToAuthorizationPage;
 import by.itacademy.newsportal.controller.impl.GoToMainPage;
@@ -30,6 +31,7 @@ public class CommandProvider {
 		commands.put(CommandName.GO_TO_PROFILE_USER_PAGE, new GoToProfileUserPage());
 		commands.put(CommandName.ADDNEWS, new AddNews());
 		commands.put(CommandName.GO_TO_ADMIN_PAGE, new GoToAdminPage());
+		commands.put(CommandName.GO_TO_ADDNEWS_PAGE, new GoToAddNewsPage());
 	}
 	
 	public Command findCommand(String name) {

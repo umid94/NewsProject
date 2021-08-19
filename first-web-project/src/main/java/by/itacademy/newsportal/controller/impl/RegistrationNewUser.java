@@ -7,7 +7,6 @@ import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.ServiceException;
 import by.itacademy.newsportal.service.ServiceProvider;
 import by.itacademy.newsportal.service.UserService;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;

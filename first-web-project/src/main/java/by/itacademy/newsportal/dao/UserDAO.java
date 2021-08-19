@@ -2,7 +2,6 @@ package by.itacademy.newsportal.dao;
 
 import by.itacademy.newsportal.bean.RegistrationInfo;
 import by.itacademy.newsportal.bean.User;
-import by.itacademy.newsportal.service.ServiceException;
 public interface UserDAO {
 	
 	public void saveUser (RegistrationInfo info) throws DAOException;

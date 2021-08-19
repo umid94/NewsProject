@@ -9,7 +9,6 @@ import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.NewsService;
 import by.itacademy.newsportal.service.ServiceException;
 import by.itacademy.newsportal.service.ServiceProvider;
-import by.itacademy.newsportal.service.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,7 +30,6 @@ public class GoToMainPage implements Command{
 		}catch(ServiceException e) {
 			
 		}
-				
 		request.setAttribute("newses", newses);
 		 
 		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
