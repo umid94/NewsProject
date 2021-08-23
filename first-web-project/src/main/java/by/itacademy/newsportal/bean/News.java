@@ -19,6 +19,7 @@ public class News implements Serializable{
 	
 	public News(int id, String title, String brief, String content, Date newsDate, int user_id) {
 		super();
+		this.id = id;
 		this.title = title;
 		this.brief = brief;
 		this.content = content;
@@ -89,6 +90,7 @@ public class News implements Serializable{
 		   result = prime * result + ((brief == null) ? 0 : brief.hashCode()); 
 		   result = prime * result + ((content == null) ? 0 : content.hashCode()); 
 		   result = prime * result + ((newsDate == null) ? 0 : newsDate.hashCode()); 
+		   result = prime * result + user_id;
 		   return result;	
 	}
 
@@ -106,8 +108,8 @@ public class News implements Serializable{
 	        && (title == guest.title || (title != null &&title.equals(guest.getTitle()))) 
 	        && (brief == guest.brief || (brief != null && brief .equals(guest.getBrief())))
 	    	&& (content == guest.content || (content != null && content.equals(guest.getContent())))
-	    	&& (newsDate == guest.newsDate || (newsDate != null && newsDate .equals(guest.getNewsDate())));
-	    
+	    	&& (newsDate == guest.newsDate || (newsDate != null && newsDate .equals(guest.getNewsDate())))
+	    	&& user_id == guest.user_id;	    
 	}
 	
 	
@@ -115,7 +117,7 @@ public class News implements Serializable{
 	@Override
 	public String toString() {
 		return getClass().getName() + "@" + "id=" + id + ", title=" + title + ", brief=" + brief + ", content=" + content + ", newsDate="
-				+ newsDate;
+				+ newsDate + ", user_id=" + user_id;
 	}
 	
 }

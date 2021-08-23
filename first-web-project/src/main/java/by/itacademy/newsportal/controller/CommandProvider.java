@@ -8,7 +8,9 @@ import by.itacademy.newsportal.controller.impl.ChangeLocale;
 import by.itacademy.newsportal.controller.impl.GoToAddNewsPage;
 import by.itacademy.newsportal.controller.impl.GoToAdminPage;
 import by.itacademy.newsportal.controller.impl.GoToAuthorizationPage;
+import by.itacademy.newsportal.controller.impl.GoToCategoryPage;
 import by.itacademy.newsportal.controller.impl.GoToMainPage;
+import by.itacademy.newsportal.controller.impl.GoToOneNewsPage;
 import by.itacademy.newsportal.controller.impl.GoToProfileUserPage;
 import by.itacademy.newsportal.controller.impl.GoToRegistrationPage;
 import by.itacademy.newsportal.controller.impl.LogOut;
@@ -32,6 +34,8 @@ public class CommandProvider {
 		commands.put(CommandName.ADDNEWS, new AddNews());
 		commands.put(CommandName.GO_TO_ADMIN_PAGE, new GoToAdminPage());
 		commands.put(CommandName.GO_TO_ADDNEWS_PAGE, new GoToAddNewsPage());
+		commands.put(CommandName.GO_TO_CATEGORY_PAGE, new GoToCategoryPage());
+		commands.put(CommandName.GO_TO_ONE_NEWS_PAGE, new GoToOneNewsPage());
 	}
 	
 	public Command findCommand(String name) {

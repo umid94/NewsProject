@@ -20,25 +20,25 @@ public class SignIn implements Command {
 	private static final ServiceProvider provider = ServiceProvider.getInstance();
 	private static final UserService USERSERVICE = provider.getUserService();
 	private static final NewsService NEWSSERVICE = provider.getNewService();
+	private static final String LOGIN = "login";
+	private static final String PASSWORD = "password";
 	private static final String SENDRED_TRY_USER = "Controller?command=go_to_profile_user_page&message=Welcome to your page in Breaking News Bro :)";
 	private static final String SENDRED_TRY_ADMIN = "Controller?command=go_to_admin_page&message=Welcome to your page in Breaking News Bro Admin :)";
 	private static final String SENDRED_CATCH = "Controller?command=go_to_authorization_page&message=polzovatel pojalustya vvedi zanovo pravilniy login i parol";
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+		String login = (String) request.getParameter(LOGIN);
+		String password = (String) request.getParameter(PASSWORD);
 		List<News> newsess = new ArrayList<News>();
 
 		try {
-
-			String login = (String) request.getParameter("login");
-			String password = (String) request.getParameter("password");
 			User user = USERSERVICE.authorizationUser(login, password);
 
 			newsess = NEWSSERVICE.getLastNews();
-			request.setAttribute("newse", newsess);
 			
 			HttpSession session = request.getSession(true);
+			session.setAttribute("newse", newsess);
 			session.setAttribute("user", user);
 			if ("admin".equals(user.getRole())) {
 				response.sendRedirect(SENDRED_TRY_ADMIN);

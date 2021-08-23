@@ -17,16 +17,19 @@ public class AddNews implements Command{
 	public static final String MAIN_PAGE = "/WEB-INF/jsp/addnews.jsp";
 	public static final String SESSION_ATTR_PATH = "path";
 	public static final String SESSION_ATTR_LOCAL_COMMAND = "ADDNEWS";
-	private static final String SENDRED_TRY = "Controller?command=go_to_admin_page&message=Your News succesfully added :)";
+	public static final String TITLE = "title";
+	public static final String BRIEF = "brief";
+	public static final String CONTENT = "content";
+	public static final String ID = "user_id";
+	private static final String SENDRED_TRY = "Controller?command=go_to_admin_page&message=Your News succesfully sent for approval :)";
 	private static final String SENDRED_CATCH = "Controller?command=addnews&message=Add new News failed please try again";
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		String title = request.getParameter("title");
-		String brief = request.getParameter("brief");
-		String content = request.getParameter("content");
-		int id = Integer.parseInt(request.getParameter("user_id"));
-		
+		String title = request.getParameter(TITLE);
+		String brief = request.getParameter(BRIEF);
+		String content = request.getParameter(CONTENT);
+		int id = Integer.parseInt (request.getParameter(ID));
 		News news = new News(title, brief, content, id);
 		
 		try {

@@ -69,7 +69,12 @@ body {
 	<table>
     <c:forEach var="oneNews" items="${newses}" >
         <h3>${oneNews.title}</h3>
-        <p>${oneNews.brief}</p>
+        <c:if test="${sessionScope.user == null}">
+			<p>${oneNews.brief}</p>
+		</c:if>
+		<c:if test="${sessionScope.user != null}">
+			<p>${oneNews.content}</p>
+		</c:if>
     </c:forEach>
 	</table>
 

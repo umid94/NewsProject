@@ -13,5 +13,9 @@ public interface NewsService {
 	public void delete(News news)throws ServiceException;
 	
 	public List<News> getLastNews()throws ServiceException; 
+	
+	public List<News> getCategNews(String category)throws ServiceException;
+	
+	public News getOneNews(int id)throws ServiceException;
 		
 }

@@ -56,4 +56,27 @@ public class NewServiceImpl implements NewsService {
 		
 	}
 
+	@Override
+	public List<News> getCategNews(String category) throws ServiceException {
+		
+		try {
+			return NEWSDAO.getCategNews(category);
+		} catch (DAOException e) {
+			throw new ServiceException("Oshibka pri polucheniye category news", e);
+		}
+		
+	}
+
+	@Override
+	public News getOneNews(int id) throws ServiceException {
+
+		try {
+			return NEWSDAO.getOneNews(id);
+		} catch (DAOException e) {
+			throw new ServiceException("Oshibka pri polucheniye odnogo news", e);
+		}
+	}
+
+	
+
 }

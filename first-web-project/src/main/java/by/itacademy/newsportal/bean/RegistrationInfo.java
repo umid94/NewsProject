@@ -84,8 +84,8 @@ public class RegistrationInfo implements Serializable{
 
 	@Override
 	public String toString() {
-		return "RegistrationInfo [firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", login="
-				+ login + ", password=" + password + ", role=" + role + "]";
+		return getClass().getName() + "@" + "firstName=" + firstName + ", lastName=" + lastName + ", email=" + email + ", login="
+				+ login + ", password=" + password + ", role=" + role;
 	}
 	
 	

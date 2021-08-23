@@ -30,11 +30,13 @@
 	</form>
 	<hr>
 	<form action="Controller" method="post">
-		<input type="hidden" name="command" value="addnews" /> >
+		<input type="hidden" name="command" value="addnews" />
 		<div class="container">
 			<h1>
 				<c:out value="${heading_text}"></c:out>
 			</h1>
+			<c:set var="id" value="${Scope.id_news}"/>
+			<h1>${id}</h1>
 			<c:set var="user_id" value="${sessionScope.user.id}"/>
             <input type="hidden" name="user_id" value="${user_id}"/>
 			<p>${title_text}<br>

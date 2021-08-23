@@ -25,18 +25,35 @@
 			<input type="hidden" name="command" value="logout" /> <input
 				type="submit" value="logout" />
 		</form>
-	<font color=green size=20> <%
-      String mess = (String)request.getParameter("message");
-      if(mess != null){
-    	  out.print(mess);
-      }
-      
-    %>
+		<form action="Controller" method="post">
+			<input type="hidden" name="command" value="go_to_main_page" /> <input
+				type="submit" value="Home Page" />
+		</form>
+		<form action="Controller" method="post">
+			<input type="hidden" name="command" value="go_to_category_page" />
+			<input type="hidden" name="category" value="economy" />
+			<input type="submit" value="Economy" />
+		</form>
+		<form action="Controller" method="post">
+			<input type="hidden" name="command" value="go_to_category_page" />
+			<input type="hidden" name="category" value="sport" /> 
+			 <input	type="submit" value="Sport" />
+		</form>
+		<form action="Controller" method="post">
+			<input type="hidden" name="command" value="go_to_category_page" />
+			 <input type="hidden" name="category" value="world" /> 
+			 <input	type="submit" value="World" />
+		</form>
+	<font color=green size=20> 
+	<c:out value="${param.message}" />
 	</font>
+	<c:set var="newses" value="${sessionScope.newse}"/>
 	<table>
 		<c:forEach var="news1" items="${newse}">
+		<a href="Controller?command=go_to_one_news_page&id_news=${news1.id}">
 			<h3>${news1.title}</h3>
 			<p>${news1.content}</p>
+		</a>
 		</c:forEach>
 	</table>
 </body>

@@ -42,6 +42,7 @@ public class User implements Serializable{
 	public int hashCode() {
 		  final int prime = 31;
 		   int result = 1;
+		   result = prime * result + id;
 		   result = prime * result + ((role == null) ? 0 : role.hashCode());  
 		   result = prime * result + ((login == null) ? 0 : login.hashCode()); 
 		   return result;	
@@ -57,14 +58,14 @@ public class User implements Serializable{
 	    }
 
 	    User guest = (User) obj;
-	        return (role == guest.role || (role != null && role.equals(guest.getRole()))) 
+	        return id == guest.id && (role == guest.role || (role != null && role.equals(guest.getRole()))) 
 	        && (login == guest.login || (login != null && login.equals(guest.getLogin())));
 	    
 	}
 
 	@Override
 	public String toString() {
-		return "User [role=" + role + ", login=" + login + "]";
+		return getClass().getName() + "@" + ", id=" + id + ", role=" + role + ", login=" + login;
 	}
 	
 	
