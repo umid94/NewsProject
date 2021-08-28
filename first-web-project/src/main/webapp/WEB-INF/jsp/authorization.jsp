@@ -9,8 +9,7 @@
 
 <title>Authorization</title>
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="localization.local" var="loc" />
-<fmt:message bundle="${loc}" key="authorization.label.login" var="label_login" />
+<fmt:setBundle basename="resources.localization.local" var="loc" /><fmt:message bundle="${loc}" key="authorization.label.login" var="label_login" />
 <fmt:message bundle="${loc}" key="authorization.label.password" var="label_password" />
 <fmt:message bundle="${loc}" key="authorization.placeholder.login" var="placeholder_login" />
 <fmt:message bundle="${loc}" key="authorization.placeholder.password" var="placeholder_password" />

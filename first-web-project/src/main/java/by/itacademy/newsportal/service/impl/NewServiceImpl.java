@@ -37,9 +37,9 @@ public class NewServiceImpl implements NewsService {
 	}
 
 	@Override
-	public void delete(News news) throws ServiceException {
+	public void delete(int[] mass) throws ServiceException {
 		try {
-			NEWSDAO.delete(news);
+			NEWSDAO.delete(mass);
 		}catch(DAOException e) {
 			throw new ServiceException("Oshibka pri udaleniyie novostya", e);
 		}
@@ -77,6 +77,63 @@ public class NewServiceImpl implements NewsService {
 		}
 	}
 
-	
+	@Override
+	public List<News> getDisApprovedNews() throws ServiceException {
+		try {
+			return NEWSDAO.getDisApprovedNews();
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+		
+	}
+
+	@Override
+	public List<News> getUserNews(int idUser) throws ServiceException {
+		try {
+			return NEWSDAO.getUserNews(idUser);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public int getCountNews() throws ServiceException {
+		try {
+			return NEWSDAO.getCountNews();
+		} catch (DAOException e) {
+           throw new ServiceException(e);
+		}
+		
+	}
+
+	@Override
+	public List<News> getAllPagNews(int page) throws ServiceException {
+		
+		try {
+			return NEWSDAO.getAllPagNews(page);
+		} catch (DAOException e) {
+			throw new ServiceException(e);	
+			}
+		
+	}
+
+	@Override
+	public boolean approvedNews(int[] mass) throws ServiceException {
+		
+		try {
+			return NEWSDAO.approvedNews(mass);
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
+
+	@Override
+	public List<News> getDeletedNews() throws ServiceException {
+		try {
+			return NEWSDAO.getDeletedNews();
+		} catch (DAOException e) {
+			throw new ServiceException(e);
+		}
+	}
 
 }

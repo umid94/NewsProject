@@ -70,20 +70,13 @@ public class UserServiceImpl implements UserService {
 		
 	}
 	@Override
-	public void validateDuplicate(String login, String email) throws ServiceException {
-		
-		if (!login.matches(PATTERN_LOGIN)) {
-			throw new ServiceException("Invalid login. Try again");
-		}
-		if (!email.matches(PATTERN_EMAIL)) {
-			throw new ServiceException("Invalid email. Try again");
-		}
+	public boolean validateDuplicate(String login, String email) throws ServiceException {
 		
 		try {
-			
-			userDAO.validateDuplicate(login, email);
+			System.out.print("servis");
+			return userDAO.validateDuplicate(login, email);
 		} catch (DAOException e) {
-			throw new ServiceException(e.getMessage(), e);
+			throw new ServiceException("Oshibka pri proverke login i email na sushestvovanie", e);
 		}
 		
 	}	

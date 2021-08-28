@@ -14,49 +14,48 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-public class GoToAdminPage implements Command{
+public class AllNews implements Command {
 	private static final ServiceProvider provider = ServiceProvider.getInstance();
 	private static final NewsService NEWSSERVICE = provider.getNewService();
-	public static final String ADMIN_PAGE = "/WEB-INF/jsp/adminpage.jsp";
+	private static final String PROFILEUSER_PAGE = "/WEB-INF/jsp/profileuser.jsp";
+	private static final String ADMIN_PAGE = "/WEB-INF/jsp/adminpage.jsp";
 	public static final String SESSION_ATTR_PATH = "path";
-	public static final String SESSION_ATTR_LOCAL_COMMAND = "go_to_admin_page";
+	public static final String SESSION_ATTR_LOCAL_COMMAND = "all_news";
+	public static final String PAGE = "page";
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			response.sendRedirect("Controller?command=go_to_authorization_page");
-			return;
-		}
-		User user = (User)session.getAttribute("user");
-		if(user == null) {
-			response.sendRedirect("Controller?command=go_to_authorization_page");
-			return;
-		}
-		if(! "admin".equals(user.getRole())) {
-			session.removeAttribute("user");
-			response.sendRedirect("Controller?command=go_to_authorization_page");
-			return;
-		}
-		
+		int page = 0;
 		double count = 0;
 		List<News> newses = new ArrayList<News>();
+		if(request.getParameter(PAGE) != null) {
+		page = Integer.parseInt(request.getParameter(PAGE));
+		}
 		try {
 			 count = NEWSSERVICE.getCountNews();
-			 newses = NEWSSERVICE.getAllPagNews(0);
+			 newses = NEWSSERVICE.getAllPagNews((page - 1) * 5);
 		}catch(ServiceException e) {
 			
 		}
 		
 		count =(Math.ceil(count / 5));
+		User user = (User)request.getSession().getAttribute("user");
+		if(!"admin".equals(user.getRole())) {
 		request.setAttribute("countNews", count);
 		request.setAttribute("newses", newses);
-		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(ADMIN_PAGE);
-		requestDispatcher.forward(request, response);
+		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND + "&page=" + page);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(PROFILEUSER_PAGE);
 
+		requestDispatcher.forward(request, response);
+		}else {
+			request.setAttribute("countNews", count);
+			request.setAttribute("newses", newses);
+			request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND + "&page=" + page);
+			RequestDispatcher requestDispatcher = request.getRequestDispatcher(ADMIN_PAGE);
+
+			requestDispatcher.forward(request, response);
+		}
 	}
 
 }

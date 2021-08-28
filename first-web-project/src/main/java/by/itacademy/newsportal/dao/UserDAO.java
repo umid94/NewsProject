@@ -8,6 +8,6 @@ public interface UserDAO {
 	
 	public User getUser(String password, String login) throws DAOException ;
 	
-	public void validateDuplicate(String login, String email)throws DAOException;
+	public boolean validateDuplicate(String login, String email)throws DAOException;
 }
 

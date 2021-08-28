@@ -17,6 +17,7 @@ public class RegistrationNewUser implements Command {
 
 	private static final String SENDRED_TRY = "Controller?command=go_to_authorization_page&message=taram taram pam pam pozdravlyayu avtorizuysya";
 	private static final String SENDRED_CATCH = "Controller?command=go_to_registration_page&message=pojaluysta poprobuyte eshe raz ";
+	private static final String SENDRED_DUPLICATE_CATCH = "Controller?command=go_to_registration_page&message=Uje sushestvuet takoy polzovatel, poprobuyte pomenyat login ili email";
 	public static final String NAME = "firstname";
 	public static final String SURNAME = "lastname";
 	private static final String EMAIL = "email";
@@ -30,34 +31,26 @@ public class RegistrationNewUser implements Command {
 		String email = (String) request.getParameter(EMAIL);
 		String login = (String) request.getParameter(LOGIN);
 		String password = (String) request.getParameter(PASSWORD);
-		
-		boolean isTrue = false;
+
 		RegistrationInfo info = new RegistrationInfo();
 		info.setFirstName(name);
 		info.setLastName(surname);
 		info.setEmail(email);
 		info.setLogin(login);
 		info.setPassword(password);
-		
-		try {
-			userService.validateDuplicate(login, email);
-		} catch (ServiceException e) {
-			isTrue = true;
-		}
-		
-		try {
 
+		try {
+			if (userService.validateDuplicate(login, email)) {
+				response.sendRedirect(SENDRED_DUPLICATE_CATCH);
+				return;
+			}
 			userService.registration(info);
 			response.sendRedirect(SENDRED_TRY);
 
 		} catch (ServiceException e) {
-			if (isTrue) {
-				response.sendRedirect(SENDRED_CATCH);
-			} else {
-				response.sendRedirect(SENDRED_CATCH);
-			}
-
+			response.sendRedirect(SENDRED_CATCH);
 		}
+
 	}
 
 }

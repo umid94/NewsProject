@@ -14,29 +14,27 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class GoToMainPage implements Command{
+public class GetDeletedNews implements Command {
 	private static final ServiceProvider provider = ServiceProvider.getInstance();
 	private static final NewsService NEWSSERVICE = provider.getNewService();
-	public static final String MAIN_PAGE = "/WEB-INF/jsp/main.jsp";
+	public static final String DELETED_NEWS_PAGE = "/WEB-INF/jsp/disapprovednews.jsp";
 	public static final String SESSION_ATTR_PATH = "path";
-	public static final String SESSION_ATTR_LOCAL_COMMAND = "Go_To_Main_Page";
-	
-	@Override 
+	public static final String SESSION_ATTR_LOCAL_COMMAND = "get_deleted_news";
+	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		  
+		List<News> news = new ArrayList<>();
 		
-		List<News> newses = new ArrayList<News>();
 		try {
-			newses = NEWSSERVICE.getLastNews();
-		}catch(ServiceException e) {
+			news = NEWSSERVICE.getDeletedNews();
+			
+		} catch (ServiceException e) {
 			
 		}
-		
-		request.setAttribute("newses", newses);
-		
+		request.setAttribute("news", news);
+		 
 		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(MAIN_PAGE);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(DELETED_NEWS_PAGE);
 		requestDispatcher.forward(request, response);
-		
 	}
-
 }

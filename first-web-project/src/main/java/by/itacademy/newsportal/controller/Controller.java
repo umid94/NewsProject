@@ -19,8 +19,7 @@ public class Controller extends HttpServlet {
 		doPost(request, response);
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response)throws ServletException, IOException {
 		String commandName = request.getParameter(COMMAND_REQUEST_PARAM);
 		Command command = provider.findCommand(commandName);
 		command.execute(request, response);

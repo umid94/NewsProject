@@ -9,7 +9,6 @@ import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.NewsService;
 import by.itacademy.newsportal.service.ServiceException;
 import by.itacademy.newsportal.service.ServiceProvider;
-import by.itacademy.newsportal.service.UserService;
 import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -22,6 +21,7 @@ public class GoToCategoryPage implements Command {
 	public static final String SESSION_ATTR_PATH = "path";
 	public static final String SESSION_ATTR_LOCAL_COMMAND = "go_to_category_page";
 	public static final String CATEGORY_NAME = "category";
+	public static final String ERRMESSAGE = "oshibka pri poluchenie novostey category";
 	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
@@ -35,10 +35,8 @@ public class GoToCategoryPage implements Command {
 			request.setAttribute("categNews", categNews);
 		} catch (ServiceException e) {
 			
-			
+			request.setAttribute("errMessage", ERRMESSAGE);	
 		}
-		
-		
 		
 		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(CATEGORY_PAGE);

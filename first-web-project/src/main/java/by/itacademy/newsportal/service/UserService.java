@@ -10,5 +10,5 @@ public interface UserService {
 	
 	public User authorizationUser(String login, String password)throws ServiceException;
 	
-	public void validateDuplicate(String login, String email)throws ServiceException;
+	public boolean validateDuplicate(String login, String email)throws ServiceException;
 }

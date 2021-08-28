@@ -1,27 +1,20 @@
 package by.itacademy.newsportal.controller.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-import by.itacademy.newsportal.bean.News;
 import by.itacademy.newsportal.bean.User;
 import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.NewsService;
 import by.itacademy.newsportal.service.ServiceException;
 import by.itacademy.newsportal.service.ServiceProvider;
-import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 
-public class GoToAdminPage implements Command{
-	private static final ServiceProvider provider = ServiceProvider.getInstance();
-	private static final NewsService NEWSSERVICE = provider.getNewService();
-	public static final String ADMIN_PAGE = "/WEB-INF/jsp/adminpage.jsp";
-	public static final String SESSION_ATTR_PATH = "path";
-	public static final String SESSION_ATTR_LOCAL_COMMAND = "go_to_admin_page";
+public class DeleteNews implements Command {
+    private static final ServiceProvider provider = ServiceProvider.getInstance();
+    private static final NewsService NEWSSERVICE = provider.getNewService();
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -41,22 +34,20 @@ public class GoToAdminPage implements Command{
 			return;
 		}
 		
-		double count = 0;
-		List<News> newses = new ArrayList<News>();
-		try {
-			 count = NEWSSERVICE.getCountNews();
-			 newses = NEWSSERVICE.getAllPagNews(0);
-		}catch(ServiceException e) {
+		String [] idNewsS = request.getParameterValues("id_news");
+		int s = idNewsS.length;
+		 int [] idNews = new int[s];
+		for(int i = 0; i < s; i++) {
+			idNews[i] = Integer.parseInt(idNewsS[i]);
+		}
 			
+		try {
+			NEWSSERVICE.delete(idNews);
+			response.sendRedirect("Controller?command=go_to_admin_page&message=novost uspeshno pereveden v arxiv");
+		} catch (ServiceException e) {
+		    response.sendRedirect("Controller?command=go_to_admin_page&message=proizoshla oshibka pri udalenie novostey");
 		}
 		
-		count =(Math.ceil(count / 5));
-		request.setAttribute("countNews", count);
-		request.setAttribute("newses", newses);
-		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(ADMIN_PAGE);
-		requestDispatcher.forward(request, response);
-
 	}
 
 }

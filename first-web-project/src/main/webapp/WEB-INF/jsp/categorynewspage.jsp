@@ -23,8 +23,10 @@
 	<hr>
 	<h1>CATEGORY NEWS PAGE</h1>
 	<hr>
+	<c:out value="${param.errMessage}"/>
 	<table>
 		<c:forEach var="news1" items="${categNews}">
+		<a href="Controller?command=go_to_one_news_page&id_news=${news1.id}">
 			<h3>${news1.title}</h3>
 			<p>${news1.content}</p>
 		</a>

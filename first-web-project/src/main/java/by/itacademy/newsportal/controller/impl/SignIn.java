@@ -38,7 +38,6 @@ public class SignIn implements Command {
 			newsess = NEWSSERVICE.getLastNews();
 			
 			HttpSession session = request.getSession(true);
-			session.setAttribute("newse", newsess);
 			session.setAttribute("user", user);
 			if ("admin".equals(user.getRole())) {
 				response.sendRedirect(SENDRED_TRY_ADMIN);

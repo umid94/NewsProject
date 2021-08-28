@@ -104,8 +104,9 @@ public class UserDAOImpl implements UserDAO {
 	}
 
 	@Override
-	public void validateDuplicate(String login, String email) throws DAOException {
-
+	public boolean validateDuplicate(String login, String email) throws DAOException {
+        
+		boolean isDuplicate = false;
 		Connection conn = null;
 		PreparedStatement ps = null;
 		PreparedStatement ps1 = null;
@@ -120,9 +121,8 @@ public class UserDAOImpl implements UserDAO {
 
 		    rs = ps.executeQuery();
 			rs1 = ps1.executeQuery();
-			
-			if(rs != null || rs1 != null) {
-				throw new DAOException("Dao da bir nimalar bo'ldi");
+			if(rs.getString("email") != null || rs1.getString("login") != null) {
+				isDuplicate = true;
 			}
 		} catch (SQLException e) {
 			throw new DAOException("Error occurred while registering a user", e);
@@ -143,6 +143,7 @@ public class UserDAOImpl implements UserDAO {
 				throw new DAOException();
 			}
 		}
+		return isDuplicate;
 		
 	}
 }

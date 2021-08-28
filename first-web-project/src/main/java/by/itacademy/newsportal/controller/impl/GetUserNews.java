@@ -1,6 +1,8 @@
 package by.itacademy.newsportal.controller.impl;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 import by.itacademy.newsportal.bean.News;
 import by.itacademy.newsportal.bean.User;
@@ -12,44 +14,30 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
-public class GoToOneNewsPage implements Command{
+public class GetUserNews implements Command{
 	private static final ServiceProvider provider = ServiceProvider.getInstance();
 	private static final NewsService NEWSSERVICE = provider.getNewService();
-	public static final String ONENEWS_PAGE = "/WEB-INF/jsp/onenewspage.jsp";
+	public static final String MYNEWS_PAGE = "/WEB-INF/jsp/mynewspage.jsp";
 	public static final String SESSION_ATTR_PATH = "path";
-	public static final String SESSION_ATTR_LOCAL_COMMAND = "go_to_one_news_page&id_news=";
-	public static final String ID_NEWS = "id_news";
+	public static final String SESSION_ATTR_LOCAL_COMMAND = "get_user_news";
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			response.sendRedirect("Controller?command=go_to_authorization_page");
-			return;
-		}
-		User user = (User)session.getAttribute("user");
-		if(user == null) {
-			response.sendRedirect("Controller?command=go_to_authorization_page");
-			return;
-		}
 		
-		News news = null;
-		int id = 0;
-		if(request.getParameter(ID_NEWS) != null) {
-		 id = Integer.parseInt(request.getParameter(ID_NEWS));
-		}
+		User user = (User)request.getSession().getAttribute("user");
+		int id = user.getId();
+		List<News> news = new ArrayList<>();
+		
 		try {
-			news = NEWSSERVICE.getOneNews(id);
+			news = NEWSSERVICE.getUserNews(id);
 		} catch (ServiceException e) {
-			
+			e.printStackTrace();
 		}
 		request.setAttribute("news", news);
-		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND + id);
-		RequestDispatcher requestDispatcher = request.getRequestDispatcher(ONENEWS_PAGE);
+		request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
+		RequestDispatcher requestDispatcher = request.getRequestDispatcher(MYNEWS_PAGE);
 
 		requestDispatcher.forward(request, response);
-		
 	}
 
 }

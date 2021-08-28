@@ -9,7 +9,7 @@
 <title>Breaking News</title>
 
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="localization.local" var="loc" />
+<fmt:setBundle basename="resources.localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="main.authorization.button.name"
 	var="authorization_btn" />
 <fmt:message bundle="${loc}" key="main.registration.button.name"
@@ -34,6 +34,7 @@ body {
 </head>
 <body>
 	<div class="headbar">
+	
 		<form action="Controller" method="post">
 			<input type="hidden" name="local" value="ru" /> <input type="hidden"
 				name="command" value="CHANGE_LOCALE" /> <input type="submit"
@@ -48,6 +49,7 @@ body {
 		<h1>
 			<c:out value="${heading_text}"></c:out>
 		</h1>
+		<c:if test="${sessionScope.user == null}">
 		<form action="Controller" method="post">
 			<input type="hidden" name="command" value="go_to_registration_page" />
 			<input type="submit" value="${registration_btn}" />
@@ -57,6 +59,7 @@ body {
 			<input type="hidden" name="command" value="go_to_authorization_page" />
 			<input type="submit" value="${authorization_btn}" />
 		</form>
+		</c:if>
 		<c:if test="${sessionScope.user != null}">
 			<form action="Controller" method="post">
 				<input type="hidden" name="command" value="logout" /> <input
@@ -77,6 +80,6 @@ body {
 		</c:if>
     </c:forEach>
 	</table>
-
+	
 </body>
 </html>
