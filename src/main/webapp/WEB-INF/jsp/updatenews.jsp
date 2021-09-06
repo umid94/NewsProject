@@ -8,9 +8,8 @@
 <meta charset="utf-8">
 <title>Update News</title>
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="resources.localization.local" var="loc" />
-<fmt:message bundle="${loc}" key="addnews.heading.text"
-	var="heading_text" />
+<fmt:setBundle basename="localization.local" var="loc" />
+<fmt:message bundle="${loc}" key="addnews.heading.text" var="heading_text" />
 <fmt:message bundle="${loc}" key="news.title" var="title_text" />
 <fmt:message bundle="${loc}" key="news.brief" var="brief_text" />
 <fmt:message bundle="${loc}" key="news.content" var="content_text" />
@@ -44,9 +43,9 @@
 			<h1>
 				<c:out value="${heading_text}" />
 			</h1>
-			<input type="hidden" name="id_news" value="${news.id}" />
-			<label for="category"><c:out value="${cat_text}" /></label>
-			 <select id="category" name="category">
+			<input type="hidden" name="id_news" value="${news.id}" /> <label
+				for="category"><c:out value="${cat_text}" /></label> <select
+				id="category" name="category">
 				<option value="economy">${cat_economy}</option>
 				<option value="sport">${cat_sport}</option>
 				<option value="world">${cat_world}</option>
@@ -58,7 +57,7 @@
 			<p>${brief_text}<br>
 				<textarea name="brief" cols="40" rows="3">${news.brief}</textarea>
 			</p>
-			
+
 			<p>${content_text}<br>
 				<textarea name="content" cols="50" rows="10">${news.content}</textarea>
 			</p>

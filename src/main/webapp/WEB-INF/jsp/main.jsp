@@ -9,7 +9,7 @@
 <title>Breaking News</title>
 
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="resources.localization.local" var="loc" />
+<fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="main.authorization.button.name"
 	var="authorization_btn" />
 <fmt:message bundle="${loc}" key="main.registration.button.name"

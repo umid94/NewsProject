@@ -16,7 +16,7 @@ public class DeleteNews implements Command {
     private static final ServiceProvider provider = ServiceProvider.getInstance();
     private static final NewsService NEWSSERVICE = provider.getNewService();
     private static final String SEND_SESSION="Controller?command=go_to_authorization_page";
-    private static final String ID_EMPTY_RED ="Controller?command=go_to_admin_page&message= ne vybrano ne odnogo novostya";
+    private static final String ID_EMPTY_RED ="Controller?command=go_to_admin_page&message= ne vybrano ne odnogo novostya admin ty durak";
     private static final String SEND_RED_TRY = "Controller?command=go_to_admin_page&message=novost uspeshno pereveden v arxiv";
     private static final String SEND_RED_CATCH = "Controller?command=go_to_admin_page&message=proizoshla oshibka pri udalenie novostey";
 	@Override

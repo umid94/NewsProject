@@ -8,7 +8,7 @@
 <title>Admin Page</title>
 
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="resources.localization.local" var="loc" />
+<fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="logout.btn" var="logout_btn" />
 <fmt:message bundle="${loc}" key="news.btn.add" var="add_btn" />
 <fmt:message bundle="${loc}" key="admin.unapproved.btn" var="unapproved_btn" />

@@ -8,7 +8,7 @@
 
 <title>Registration</title>
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="resources.localization.local" var="loc" />
+<fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="registration.label.login" var="label_login" />
 <fmt:message bundle="${loc}" key="registration.label.password" var="label_password" />
 <fmt:message bundle="${loc}" key="registration.label.firstname"	var="label_firstname" />

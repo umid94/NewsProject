@@ -52,7 +52,7 @@ public class ConnectionPool {
 		try {
 			initPoolData();
 		} catch (ConnectionPoolException e) {
-			throw new RuntimeException(e.getMessage(), e);
+			throw new RuntimeException(e);
 		}
 		
 	}

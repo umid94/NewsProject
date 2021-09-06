@@ -8,7 +8,7 @@
 <meta charset="UTF-8">
 <title>Disapproved News</title>
 <fmt:setLocale value="${sessionScope.local}" />
-<fmt:setBundle basename="resources.localization.local" var="loc" />
+<fmt:setBundle basename="localization.local" var="loc" />
 <fmt:message bundle="${loc}" key="news.status" var="status_text" />
 <fmt:message bundle="${loc}" key="news.btn.update" var="update_btn" />
 <fmt:message bundle="${loc}" key="news.title" var="title_text" />

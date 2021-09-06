@@ -23,13 +23,13 @@ public class NewServiceImpl implements NewsService {
 		String brief = news.getBrief();
 		String content = news.getContent();
 		
-		if(title.matches(PATTERN_TITLE)) {
+		if(!title.matches(PATTERN_TITLE)) {
 			throw new ServiceException("Invalid title. Try again");
 		}
-		if(brief.matches(PATTERN_BRIEF)) {
+		if(!brief.matches(PATTERN_BRIEF)) {
 			throw new ServiceException("Invalid brief. Try again");
 		}
-		if(content.matches(PATTERN_CONTENT)) {
+		if(!content.matches(PATTERN_CONTENT)) {
 			throw new ServiceException("Invalid content. Try again");
 		}
 		
