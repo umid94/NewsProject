@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.itacademy.newsportal.bean.News;
-import by.itacademy.newsportal.bean.User;
 import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.NewsService;
 import by.itacademy.newsportal.service.ServiceException;
@@ -23,16 +25,12 @@ public class GoToCategoryPage implements Command {
 	public static final String SESSION_ATTR_LOCAL_COMMAND = "go_to_category_page&category=";
 	public static final String CATEGORY_NAME = "category";
 	public static final String ERR_REDIRECT = "Controller?command=go_to_profile_user_page&errMessage=oshibka pri poluchenie novostey category";
-	private static final String SEND_SESSION_="Controller?command=go_to_authorization_page";
+
+	private final static Logger log = LogManager.getLogger("mylogger");
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		User user = (User)request.getSession().getAttribute("user");
-		if(user == null) {
-			response.sendRedirect(SEND_SESSION_);
-			return;
-		}
 		String category = request.getParameter(CATEGORY_NAME);
 		List<News> categNews = new ArrayList<>();
 		
@@ -40,6 +38,7 @@ public class GoToCategoryPage implements Command {
 			categNews = NEWSSERVICE.getCategNews(category);
 			request.setAttribute("newses", categNews);
 		} catch (ServiceException e) {
+			log.error("error while reading category news", e);
 			response.sendRedirect(ERR_REDIRECT);
 		    return;
 		}

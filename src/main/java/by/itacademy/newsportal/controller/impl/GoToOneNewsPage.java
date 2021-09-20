@@ -2,8 +2,10 @@ package by.itacademy.newsportal.controller.impl;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.itacademy.newsportal.bean.News;
-import by.itacademy.newsportal.bean.User;
 import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.NewsService;
 import by.itacademy.newsportal.service.ServiceException;
@@ -12,7 +14,6 @@ import jakarta.servlet.RequestDispatcher;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.servlet.http.HttpSession;
 
 public class GoToOneNewsPage implements Command{
 	private static final ServiceProvider provider = ServiceProvider.getInstance();
@@ -21,21 +22,12 @@ public class GoToOneNewsPage implements Command{
 	public static final String SESSION_ATTR_PATH = "path";
 	public static final String SESSION_ATTR_LOCAL_COMMAND = "go_to_one_news_page&id_news=";
 	public static final String ID_NEWS = "id_news";
-	public static final String SENDRED_SESSION = "Controller?command=go_to_authorization_page";
 	public static final String ERR_REDIRECT = "Controller?command=go_to_profile_user_page&errMessage=oshibka pri prochetenie novostya";
+    
+	private final static Logger log = LogManager.getLogger("mylogger");
 
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			response.sendRedirect(SENDRED_SESSION);
-			return;
-		}
-		User user = (User)session.getAttribute("user");
-		if(user == null) {
-			response.sendRedirect(SENDRED_SESSION);
-			return;
-		}
 		
 		News news = null;
 		int id = 0;
@@ -45,6 +37,7 @@ public class GoToOneNewsPage implements Command{
 		try {
 			news = NEWSSERVICE.getOneNews(id);
 		} catch (ServiceException e) {
+			log.error("error while reading one news", e);
 			response.sendRedirect(ERR_REDIRECT);
 			return;
 		}

@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.itacademy.newsportal.bean.News;
 import by.itacademy.newsportal.bean.User;
 import by.itacademy.newsportal.controller.Command;
@@ -24,22 +27,15 @@ public class AllNews implements Command {
 	public static final String SESSION_ATTR_PATH = "path";
 	public static final String SESSION_ATTR_LOCAL_COMMAND = "all_news";
 	public static final String PAGE = "page";
-	private static final String SEND_SESSION_="Controller?command=go_to_authorization_page";
 	private static final String SENDRED_TRY_USER = "Controller?command=go_to_profile_user_page&message=oshibka pri chtenie novostey stranitsy";
 	private static final String SENDRED_TRY_ADMIN = "Controller?command=go_to_admin_page&message=oshibka pri chtenie novostey stranitsy";
+	
+	private final static Logger log = LogManager.getLogger("mylogger");
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			response.sendRedirect(SEND_SESSION_);
-			return;
-		}
-		User user = (User)session.getAttribute("user");
-		if(user == null) {
-			response.sendRedirect(SEND_SESSION_);
-			return;
-		}
+		User user = (User)request.getSession().getAttribute("user");
 		
 		int page = 0;
 		double count = 0;
@@ -52,6 +48,7 @@ public class AllNews implements Command {
 			 count = NEWSSERVICE.getCountNews();
 			 newses = NEWSSERVICE.getAllPagNews((page - 1) * 5);
 		}catch(ServiceException e) {
+			log.error("Error reading all news", e);
 			if("admin".equals(user.getRole())){
 				response.sendRedirect(SENDRED_TRY_ADMIN);
 			}else {

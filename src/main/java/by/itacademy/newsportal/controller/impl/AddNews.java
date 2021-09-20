@@ -2,6 +2,9 @@ package by.itacademy.newsportal.controller.impl;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.itacademy.newsportal.bean.News;
 import by.itacademy.newsportal.bean.User;
 import by.itacademy.newsportal.controller.Command;
@@ -25,6 +28,9 @@ public class AddNews implements Command{
 	private static final String SENDRED_TRY_USER = "Controller?command=go_to_profile_user_page&message=Your News succesfully sent for approval :)";
 	private static final String SENRED_TRY_ADMIN =  "Controller?command=go_to_admin_page&message=News succesfully added";
 	private static final String SENDRED_CATCH = "Controller?command=go_to_addnews_page&message=Add new News failed please try again";
+	
+	private final static Logger log = LogManager.getLogger("mylogger");
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
@@ -60,6 +66,7 @@ public class AddNews implements Command{
 			  response.sendRedirect(SENDRED_TRY_USER);
 			}
 		} catch (ServiceException e) {
+			log.error("error when adding news", e);
 			response.sendRedirect(SENDRED_CATCH);
 		}
 	}

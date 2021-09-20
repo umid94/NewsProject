@@ -21,6 +21,7 @@ public class LogOut implements Command {
 		
 		HttpSession session = request.getSession(true);
 		session.removeAttribute(SESS_USER);
+		session.setAttribute("guest", "guest");
 		RequestDispatcher requestDispatcher = request.getRequestDispatcher(MAIN_PAGE);
 		requestDispatcher.forward(request, response);
 	}

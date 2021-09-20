@@ -2,6 +2,9 @@ package by.itacademy.newsportal.controller.impl;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.NewsService;
 import by.itacademy.newsportal.service.ServiceException;
@@ -13,10 +16,13 @@ import jakarta.servlet.http.HttpServletResponse;
 public class ApprovedNews implements Command{
 	private static final ServiceProvider provider = ServiceProvider.getInstance();
     private static final NewsService NEWSSERVICE = provider.getNewService();
-    private static final String ID_EMPTY_RED ="Controller?command=go_to_admin_page&message= ne vybrano ne odnogo novostya admin ty durak";
+    private static final String ID_EMPTY_RED ="Controller?command=go_to_admin_page&message= ne vybrano ne odnogo novostya";
     private static final String SEND_RED_TRY = "Controller?command=get_disapproved_news&message=operatsiya vipolneno uspeshno";
     private static final String SEND_RED_CATCH ="Controller?command=get_disapproved_news&message=proizoshla oshibka poprobuyte eshe raz";
-	@Override
+	
+	private final static Logger log = LogManager.getLogger("mylogger");
+    
+    @Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
 		if(null == request.getParameterValues("id_news")) {
@@ -35,6 +41,7 @@ public class ApprovedNews implements Command{
 			response.sendRedirect(SEND_RED_TRY);
 			
 		} catch (ServiceException e) {
+			log.error("error when approving news", e);
 			response.sendRedirect(SEND_RED_CATCH);
 		}
 		

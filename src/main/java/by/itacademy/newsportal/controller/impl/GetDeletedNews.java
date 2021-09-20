@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.itacademy.newsportal.bean.News;
 import by.itacademy.newsportal.controller.Command;
 import by.itacademy.newsportal.service.NewsService;
@@ -20,7 +23,10 @@ public class GetDeletedNews implements Command {
 	public static final String DELETED_NEWS_PAGE = "/WEB-INF/jsp/disapprovednews.jsp";
 	public static final String SESSION_ATTR_PATH = "path";
 	public static final String SESSION_ATTR_LOCAL_COMMAND = "get_deleted_news";
-	 public static final String MESSAGE = "Oshibka pri prochetenie udalennix novostey kak ty pisal kod :)";
+	public static final String MESSAGE = "Oshibka pri prochetenie udalennix novostey kak ty pisal kod :)";
+	
+	private final static Logger log = LogManager.getLogger("mylogger");
+	
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		  
@@ -30,6 +36,7 @@ public class GetDeletedNews implements Command {
 			news = NEWSSERVICE.getDeletedNews();
 			request.setAttribute("news", news);
 		} catch (ServiceException e) {
+			log.error("Error while retrieving deleted news", e);
 			request.setAttribute("message", MESSAGE);
 			request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(DELETED_NEWS_PAGE);

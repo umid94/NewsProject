@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import by.itacademy.newsportal.bean.News;
 import by.itacademy.newsportal.bean.User;
 import by.itacademy.newsportal.controller.Command;
@@ -24,20 +27,17 @@ public class GoToAdminPage implements Command{
 	public static final String SESSION_ATTR_LOCAL_COMMAND = "go_to_admin_page";
 	public static final String SENDRED_SESSION = "Controller?command=go_to_authorization_page";
 	public static final String AdminMess = "Proizoshla oshibka pri polucheniye novostey esli ty admin to znaesh kak postupit :)";
+	
+	private final static Logger log = LogManager.getLogger("mylogger");
+
 	@Override
 	public void execute(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		HttpSession session = request.getSession(false);
-		if(session == null) {
-			response.sendRedirect(SENDRED_SESSION);
-			return;
-		}
+		HttpSession session = request.getSession(true);
 		User user = (User)session.getAttribute("user");
-		if(user == null) {
-			response.sendRedirect(SENDRED_SESSION);
-			return;
-		}
+		
 		if(!"admin".equals(user.getRole())) {
+			log.warn("User pytaetsya popast v adminku");
 			session.removeAttribute("user");
 			response.sendRedirect(SENDRED_SESSION);
 			return;
@@ -49,6 +49,7 @@ public class GoToAdminPage implements Command{
 			 count = NEWSSERVICE.getCountNews();
 			 newses = NEWSSERVICE.getAllPagNews(0);
 		}catch(ServiceException e) {
+			log.error("error when entering admin page", e);
 			request.setAttribute("adminMess", AdminMess);
 			request.getSession(true).setAttribute(SESSION_ATTR_PATH, SESSION_ATTR_LOCAL_COMMAND);
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher(ADMIN_PAGE);

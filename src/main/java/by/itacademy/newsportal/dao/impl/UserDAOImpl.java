@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import by.itacademy.newsportal.bean.RegistrationInfo;
 import by.itacademy.newsportal.bean.User;
@@ -16,10 +18,9 @@ import by.itacademy.newsportal.dao.connectionpool.ConnectionPoolException;
 public class UserDAOImpl implements UserDAO {
 
 	private static final ConnectionPool CONNEC_POOL = ConnectionPool.getInstance();
-    private static final String REGISTRATION_USER = "INSERT INTO users(name,surname,email,login,role,password) VALUES(?,?,?,?,?,?)";
+	private static final String REGISTRATION_USER = "INSERT INTO users(name,surname,email,login,role,password) VALUES(?,?,?,?,?,?)";
     private static final String AUTHORIZATION_USER = "SELECT * FROM users WHERE login=? AND password=?";
-    private static final String VALID_LOGIN_DUPLIC = "SELECT * FROM users WHERE login=?";
-    private static final String VALID_EMAIL_DUPLIC = "SELECT * FROM users WHERE email=?";
+    private static final String VALID_LOGIN_DUPLIC = "SELECT * FROM users WHERE login=? AND email=?";
 	@Override
 	public void saveUser(RegistrationInfo info) throws DAOException {
 
@@ -36,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
 			ps.setString(5, info.getRole());
 			ps.setString(6, info.getPassword());
 			ps.executeUpdate();
-
+     
 		} catch (SQLException e) {
 			throw new DAOException("Error occurred while registering a user", e);
 		} catch (ConnectionPoolException e) {
@@ -109,23 +110,25 @@ public class UserDAOImpl implements UserDAO {
 		boolean isDuplicate = false;
 		Connection conn = null;
 		PreparedStatement ps = null;
-		PreparedStatement ps1 = null;
 		ResultSet rs = null;
-		ResultSet rs1 = null;
 		try {
 			conn = CONNEC_POOL.takeConnection();
 			ps = conn.prepareStatement( VALID_LOGIN_DUPLIC);
-			ps1 = conn.prepareStatement(VALID_EMAIL_DUPLIC );
 			ps.setString(1, login);
-			ps1.setString(1, email);
-
+			ps.setString(2, email);
 		    rs = ps.executeQuery();
-			rs1 = ps1.executeQuery();
-			if(rs.getString("email") != null || rs1.getString("login") != null) {
+		    String log = null;
+		    String ema = null;
+		    while(rs.next()) {
+		    	log= rs.getString("login");
+		    	ema = rs.getString("email");
+		    }
+			if(log != null || ema != null) {
 				isDuplicate = true;
 			}
 		} catch (SQLException e) {
-			throw new DAOException("Error occurred while registering a user", e);
+			System.out.print("lalalala");
+			return true;
 		} catch (ConnectionPoolException e) {
 			throw new DAOException("Error connect to ConnectionPool", e);
 		}finally {
